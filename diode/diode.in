@@ -1,0 +1,42 @@
+go athena
+# base structure
+line x loc=0.00 spac=0.05
+line x loc=1.00 spac=0.05
+line x loc=2.00 spac=0.05
+
+line y loc=0.00 spac=0.02
+line y loc=0.50 spac=0.05
+line y loc=1.0 spac=0.1
+
+# silicon p-type substrate
+init silicon c.phosphorus=1.0e19 orientation=100 two.d
+# activate dopant
+diffus time=30 minutes temp=1000 dryo2 
+structure outfile=diode1.str
+tonyplot diode1.str
+# implant n type doping
+implant boron dose=1.0e15 energy=60 tilt=0 rotation=0 crystal 
+# activate dopant
+diffus time=43 minutes temp=1000 nitro 
+structure outfile=diode2.str
+tonyplot diode2.str
+# remove oxide
+etch oxide all 
+# deposit electrode
+deposit aluminum thick=0.38 
+electrode name=cathode y=0.0
+electrode name=anode backside
+structure outfile=diode3.str
+
+go atlas
+mesh infile=diode3.str
+
+models newton
+electrode name=anode
+electrode name=cathode
+lo outfile=diode1.log
+
+solve init
+solve vstep=0.1 vfinal=2.0 name = anode
+
+tonyplot diode1.log
