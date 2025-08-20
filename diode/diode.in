@@ -30,11 +30,12 @@ structure outfile=diode3.str
 
 go atlas
 mesh infile=diode3.str
+#electrode name=anode
+#electrode name=cathode
+method newton trap
+models srh
 
-models newton
-electrode name=anode
-electrode name=cathode
-lo outfile=diode1.log
+log outfile=diode1.log
 
 solve init
 solve vstep=0.1 vfinal=2.0 name = anode

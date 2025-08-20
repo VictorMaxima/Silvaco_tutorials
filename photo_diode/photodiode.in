@@ -1,0 +1,74 @@
+go athena
+
+# Mesh setup
+line x loc=0.00 spac=0.05
+line x loc=1.00 spac=0.05
+line x loc=2.00 spac=0.1
+
+line y loc=0.00 spac=0.02
+line y loc=0.5 spac=0.05
+line y loc=2.5 spac=0.1
+
+# Initialize lightly doped p-type substrate
+init silicon c.boron=1.0e19 orientation=100 two.d
+
+# Grow thin oxide layer
+diffuse time=10 minutes temp=900 dryo2
+
+structure outfile=photodiode1.str
+
+# Implant n-type phosphorus shallow junction at the surface
+implant phosphorus dose=5.0e14 energy=50 tilt=0 rotation=0 crystal
+
+# Grow oxide post implant anneal
+diffuse time=20 minutes temp=950 
+
+structure outfile=photodiode2.str
+
+# Deposit intrinsic (undoped) silicon layer ~1.5 micron
+# 
+#deposit silicon thick=1.5 
+
+
+# Grow thin oxide on top of intrinsic layer for passivation
+diffuse time=10 minutes temp=900 dryo2
+
+structure outfile=photodiode_intrinsic.str
+
+# Etch oxide for metal contact on left side (p-contact)
+etch oxide left p1.x=0.8 
+
+# Deposit aluminum metal layer
+deposit aluminum thick=0.5 
+
+# Etch aluminum metal to open window for light on right side (n-contact side)
+etch aluminum right p1.x=0.8
+
+# Etch oxide everywhere
+etch oxide all 
+
+structure outfile=photodiode3.str
+
+# Define electrodes: cathode on n-side (top, x=0.3), anode at backside (p-substrate)
+electrode name=cathode x=0.3
+electrode name=anode backside
+
+structure outfile=photodiode4.str
+
+go atlas
+# Load mesh/structure from Athena
+mesh infile=photodiode4.str
+material material=silicon eg300=1.12 taup0=1e-3 taun0=1e-3
+models srh auger optr
+beam num=1 x.origin=1 y.origin=-1 angle=90 wavelength=0.55 x.min=0 x.max=2 raytrace=ray.str
+#contact name=anode v=0
+#contact name=cathode v=5
+
+solve init
+#dark conditions
+log outfile=photodiode_dark.log
+solve vstep=-0.1 vfinal=-5 name=anode
+save outfile=pinddark.str
+log outfile=photodiode.log
+solve B1=1e3 vanode=0 vstep=-0.5 vfinal=-10 name=anode
+#save outfile=pinlight.str

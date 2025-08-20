@@ -1,0 +1,23 @@
+v ATLAS
+# This file was created by ATLAS version 5.22.1.R on Mon Aug 11 21:03:56 2025.
+#SSF 2.0 generic
+##############################################################################
+#                    Copyright (c) 1984 - 2015                               #
+#                    Silvaco Inc. All rights reserved                        #
+#                                                                            #
+# This file format and the following Key are copyright Silvaco Inc.          #
+# You may not use, this format or key without reproducing this message in    #
+# full and obtaining express written permission from Silvaco Inc.            #
+#                                                                            #
+# To obtain such permission please contact: Silvaco Inc.                     #
+#                                           support@silvaco.com              #
+#                                                                            #
+# KEY=SVC86hn7562asdx                       PROD=345                         #
+##############################################################################
+y 1 15
+z 300
+f 2 "cathode" "anode" 
+p 6 2 601 20 3 602 21 
+d 0.000000000e+000 0.000000000e+000 8.354619113e-019 0.000000000e+000 0.000000000e+000 -1.462058345e-018 
+d 0.000000000e+000 0.000000000e+000 -8.563987430e-016 1.000000000e+000 1.000000000e+000 8.620085195e-016 
+d 0.000000000e+000 0.000000000e+000 -9.115393417e-016 2.000000000e+000 2.000000000e+000 9.392887798e-016 
